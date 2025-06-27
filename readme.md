@@ -90,3 +90,8 @@ curl -v -X POST https://YOUR_WORKER_URL.workers.dev/receive \
     "value": "debugging",
     "auth": "your_secure_password_here"
   }'
+# list all key
+curl -X POST https://your-worker-domain.workers.dev/list \
+  -H "Content-Type: application/json" \
+  -d '{"auth": "your_secure_password_here"}'
+  
