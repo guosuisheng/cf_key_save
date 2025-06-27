@@ -36,12 +36,16 @@ export default {
         return await handleGet(body, env);
       }
 
+      // Handle /list endpoint
+      if (path === '/list') {
+        return await handleList(body, env);
+      }
+      
       // Unknown endpoint
       return new Response(JSON.stringify({ error: 'Endpoint not found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' }
       });
-
     } catch (error) {
       return new Response(JSON.stringify({ error: 'Invalid JSON or server error' }), {
         status: 400,
@@ -110,6 +114,31 @@ async function handleGet(body, env) {
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Failed to retrieve value' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+async function handleList(body, env) {
+  try {
+    // Get list of keys from KV
+    const listResult = await env.MY_KV_NAMESPACE.list();
+    
+    // Extract just the key names
+    const keys = listResult.keys.map(keyObj => keyObj.name);
+    
+    return new Response(JSON.stringify({
+      success: true,
+      keys: keys,
+      count: keys.length,
+      list_complete: listResult.list_complete
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Failed to list keys' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
