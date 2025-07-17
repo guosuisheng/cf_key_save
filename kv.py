@@ -10,7 +10,7 @@ BASE_URL=os.environ.get('KV_BASE_URL')
 AUTH_TOKEN=os.environ.get('KV_AUTH_TOKEN')
 
 
-LOCAL_SAVE_DIR = "/home/zyguo/source/saved_values" # Directory to save local files
+LOCAL_SAVE_DIR = "/home/user/saved_values" # Directory to save local files
 
 
 # Ensure the local save directory exists
